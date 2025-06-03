@@ -125,3 +125,27 @@ float gf_Pa2mmHg(float pressure) {  // convert Pa to mmHg
 	return (float)(pressure * 0.00750061683f);
 }
 
+bool gf_wifi_con() {   // Connecting to wifi with SSID PASS 
+  if (WiFi.status() == WL_CONNECTED)  {
+    Serial.print(WiFi.localIP());
+    Serial.println(" => conected.\n");
+    return true;
+  }
+  else  {
+    WiFi.begin(ssid, pass);
+    Serial.print("Connecting to WiFi => ");
+    for (u8_t i = 0; i < 16; ++i) {
+      if (WiFi.status() != WL_CONNECTED) {
+        Serial.print("? ");
+        delay(1000);
+      }
+      else {
+        Serial.print(WiFi.localIP());
+        Serial.println(" => conected.\n");
+        return true;
+      }
+    }
+    Serial.println(" WiFi didn't connect.\n");
+    return false;
+  }
+}
