@@ -24,6 +24,6 @@ void gf_wifi_scan();                  // Display info of available wifi AP
 void gf_wifi_status();                // display info about connection 
 void gf_prm_cpu_info();               // print info about ESP CPU & memory 
 float gf_Pa2mmHg(float pressure);     // convert Pa to mmHg
-bool gf_wifi_con();
+bool gf_wifi_con();                   // check or connect to WiFi AP with SSID and PASS from file "mydef.h"
 
 #endif
