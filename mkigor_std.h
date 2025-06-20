@@ -12,7 +12,7 @@ V1.0 from 01.06.2025
 #include "/home/igor/Documents/mydef.h"
 static const char ssid[] = WIFI_SSID;
 static const char pass[] = WIFI_PASS;
-static const unsigned long my_channel_num = 1059748;
+static const unsigned long my_channel_num = 2994389;
 static const char write_api_key[] = MYTS_WR_APIKEY;
 static const char read_api_key[]  = MYTS_RD_APIKEY;
 
