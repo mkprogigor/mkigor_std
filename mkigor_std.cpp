@@ -27,76 +27,6 @@ void gf_prn_byte(uint8_t lv_byte) {   // print byte like "FCh "
   Serial.print("h ");
 }
 
-
-void gf_wifi_scan() {     // Display info of available wifi AP 
-  Serial.println("Scan WiFi networks =>");
-  u8_t n = WiFi.scanNetworks();
-  if (n > 0) {
-    for (u8_t i = 0; i < n; ++i) {  // Print SSID and RSSI for each network found
-      Serial.print(i + 1);
-      Serial.print(": SSID=");
-      Serial.print(WiFi.SSID(i));
-      Serial.print(",\tRSSI=(");
-      Serial.print(WiFi.RSSI(i));
-      Serial.print("),\tEncr.= " );
-      Serial.println(WiFi.encryptionType(i));
-    }
-  }
-  else {
-    Serial.println("No networks found.");
-  }
-}
-
-void gf_wifi_status() {   // display info about connection 
-  Serial.println("===================== WiFi Status Info =====================");
-  byte tv_wifist = WiFi.status();
-  Serial.print(tv_wifist); Serial.print(" - ");
-  switch (tv_wifist)  {
-  case WL_CONNECTED:
-    Serial.println("WL_CONNECTED");
-    break;
-    case WL_NO_SHIELD:
-    Serial.println("WL_NO_SHIELD");
-    break;
-    case WL_IDLE_STATUS:
-    Serial.println("WL_IDLE_STATUS");
-    break;
-    case WL_CONNECT_FAILED:
-    Serial.println("WL_CONNECT_FAILED");
-    break;
-    case WL_NO_SSID_AVAIL:
-    Serial.println("WL_NO_SSID_AVAIL");
-    break;
-    case WL_SCAN_COMPLETED:
-    Serial.println("WL_SCAN_COMPLETED");
-    break;
-    case WL_CONNECTION_LOST:
-    Serial.println("WL_CONNECTION_LOST");
-    break;
-    case WL_DISCONNECTED:
-    Serial.println("WL_DISCONNECTED");
-    break;
-    default:
-    Serial.println("undefine.");
-    break;
-  }
-  if (tv_wifist == 3)  {
-    Serial.print("IP "); Serial.print(WiFi.localIP());
-    Serial.print(", MASK "); Serial.print(WiFi.subnetMask());
-    Serial.print(", GATE "); Serial.print(WiFi.gatewayIP());
-    Serial.print(", DNS  "); Serial.print(WiFi.dnsIP());
-    Serial.print(", MAC: ");
-    uint8_t mac[6];
-    WiFi.macAddress(mac);
-    for (uint8_t i = 6; i > 0; i--) {
-      Serial.print(mac[i-1],HEX); Serial.print(":");
-    }
-    Serial.println();
-    gf_wifi_scan();
-    Serial.println("=================== End WiFi Status Info ===================");
-  }
-}
-
 void gf_prm_cpu_info() {  // print info about ESP CPU & memory 
   Serial.println("=====================  Start MCU Info  =====================");
   esp_chip_info_t chip_info;
@@ -127,25 +57,93 @@ float gf_Pa2mmHg(float pressure) {  // convert Pa to mmHg
 
 bool gf_wifi_con() {   // Connecting to wifi with SSID PASS 
   if (WiFi.status() == WL_CONNECTED)  {
-    Serial.print(WiFi.localIP());
-    Serial.println(" => conected.\n");
+    Serial.print("WiFi conected => ");
+    Serial.println(WiFi.localIP());
     return true;
   }
   else  {
     WiFi.begin(ssid, pass);
-    Serial.print("Connecting to WiFi => ");
+    Serial.print("Connect to WiFi => ");
     for (u8_t i = 0; i < 16; ++i) {
       if (WiFi.status() != WL_CONNECTED) {
         Serial.print("? ");
         delay(1000);
       }
       else {
-        Serial.print(WiFi.localIP());
-        Serial.println(" => conected.\n");
+        Serial.print(", it has done, IP:");
+        Serial.println(WiFi.localIP());
         return true;
       }
     }
-    Serial.println(" WiFi didn't connect.\n");
+    Serial.println(", it does NOT connect.");
     return false;
+  }
+}
+
+void gf_wifi_scan() {     // Display info of available wifi AP 
+  Serial.println("==================== Scan WiFi networks ====================");
+  u8_t n = WiFi.scanNetworks();
+  if (n > 0) {
+    for (u8_t i = 0; i < n; ++i) {  // Print SSID and RSSI for each network found
+      Serial.print(i + 1);
+      Serial.print(": SSID=");
+      Serial.print(WiFi.SSID(i));
+      Serial.print(",\tRSSI=(");
+      Serial.print(WiFi.RSSI(i));
+      Serial.print("),\tEncr.= ");
+      Serial.println(WiFi.encryptionType(i));
+    }
+  }
+  else {
+    Serial.println("No networks found.");
+  }
+  Serial.println("================== End Scan WiFi networks ==================");
+}
+
+void gf_wifi_status() {   // display info about connection 
+  Serial.print("WiFi Status: ");
+  byte tv_wifist = WiFi.status();
+  Serial.print(tv_wifist); Serial.print("-");
+  switch (tv_wifist) {
+  case WL_CONNECTED:
+    Serial.println("WL_CONNECTED");
+    break;
+  case WL_NO_SHIELD:
+    Serial.println("WL_NO_SHIELD");
+    break;
+  case WL_IDLE_STATUS:
+    Serial.println("WL_IDLE_STATUS");
+    break;
+  case WL_CONNECT_FAILED:
+    Serial.println("WL_CONNECT_FAILED");
+    break;
+  case WL_NO_SSID_AVAIL:
+    Serial.println("WL_NO_SSID_AVAIL");
+    break;
+  case WL_SCAN_COMPLETED:
+    Serial.println("WL_SCAN_COMPLETED");
+    break;
+  case WL_CONNECTION_LOST:
+    Serial.println("WL_CONNECTION_LOST");
+    break;
+  case WL_DISCONNECTED:
+    Serial.println("WL_DISCONNECTED");
+    break;
+  default:
+    Serial.println("undefine.");
+    break;
+  }
+  if (tv_wifist == 3) {
+    Serial.print("IP "); Serial.print(WiFi.localIP());
+    Serial.print(", MASK "); Serial.print(WiFi.subnetMask());
+    Serial.print(", GATE "); Serial.print(WiFi.gatewayIP());
+    Serial.print(", DNS "); Serial.print(WiFi.dnsIP());
+    Serial.print(", MAC ");
+    uint8_t __mac[6];
+    WiFi.macAddress(mac);
+    for (uint8_t i = 6; i > 0; i--) {
+      Serial.print(__mac[i - 1], HEX); Serial.print(":");
+    }
+    Serial.println();
   }
 }
