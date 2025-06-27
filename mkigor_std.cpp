@@ -139,10 +139,10 @@ void gf_wifi_status() {   // display info about connection
     Serial.print(", GATE "); Serial.print(WiFi.gatewayIP());
     Serial.print(", DNS "); Serial.print(WiFi.dnsIP());
     Serial.print(", MAC ");
-    uint8_t __mac[6];
-    WiFi.macAddress(mac);
+    uint8_t _lv_mac[6];
+    WiFi.macAddress(_lv_mac);
     for (uint8_t i = 6; i > 0; i--) {
-      Serial.print(__mac[i - 1], HEX); Serial.print(":");
+      Serial.print(_lv_mac[i - 1], HEX); Serial.print(":");
     }
     Serial.println();
   }
