@@ -1,2 +1,2 @@
 # mkigor_std
-a few non interesting function
+A few non interesting function for arduino.
