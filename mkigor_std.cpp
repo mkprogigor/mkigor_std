@@ -118,7 +118,7 @@ void gf_prm_cpu_info() {  // print info about ESP CPU & memory
     Serial.print("PSRAM Size: "); Serial.println(spiram_size);
   }
   else Serial.println("No PSRAM detected.");
-  Serial.println("=====================   End MCU Info   =====================\n");
+  Serial.println("=====================   End MCU Info   =====================");
 }
 
 float gf_Pa2mmHg(float pressure) {  // convert Pa to mmHg
