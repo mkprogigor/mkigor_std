@@ -2,60 +2,50 @@
 Mini Std Library
 by Igor Mkprog, mkprogigor@gmail.com
 
-V1.0 from 01.06.2025
+V1.0 from 30.08.2025
+
+Glossary, abbreviations used in the module, prefix and suffix:
+gv_*    -   Global Variable;
+lv_*    -   Local Variable (live inside statement);
+cl_*    -   CLass;
+cd_*    -   Class Definishion;
+cgv_*   -   Class public (Global) member (Variable);
+clv_*   -   Class private (Local) member (Variable);
+cgf_*   -   Class public (Global) metod (Function), not need, no usefull, becouse we see parenthesis => ();
+clf_*   -   Class private (Local) metod (Function);
+
+*_stru  -   [or *_stru_t] suffix, as usual, point the type.
+
+Metods (functions) dont use symbol '_', only small or capital lett
 ************************************************************************************/
 #include "mkigor_std.h"
 
-uint8_t gf_decToBcd(uint8_t val)  {   // Convert normal decimal numbers to binary coded decimal
+uint8_t mkistdf_decToBcd(uint8_t val)  {   // Convert normal decimal numbers to binary coded decimal
   return(((val/10) << 4) | (val%10)); 
 }
 
-uint8_t gf_bcdToDec(uint8_t val)  {   // Convert binary coded decimal to normal decimal numbers
+uint8_t mkistdf_bcdToDec(uint8_t val)  {   // Convert binary coded decimal to normal decimal numbers
   return((val/16*10) + (val%16));
 }
 
-char gf_byte2char(uint8_t lv_byte1) { // translate right 4 LSB to symbol 0..F  ex. 0xBA => 'A'
+char mkistdf_byte2char(uint8_t lv_byte1) { // translate right 4 LSB to symbol 0..F  ex. 0xBA => 'A'
   lv_byte1 = lv_byte1 & 0x0F;
   if (lv_byte1 > 9) lv_byte1 = lv_byte1 + 55;
   else              lv_byte1 = lv_byte1 + 48;
   return lv_byte1;
 }
 
-void gf_prn_byte(uint8_t lv_byte) {   // print byte like "FCh "
-  Serial.print(gf_byte2char(lv_byte>>4));
-  Serial.print(gf_byte2char(lv_byte));
+void mkistdf_prnByte(uint8_t lv_byte) {   // print byte like "FCh "
+  Serial.print(mkistdf_byte2char(lv_byte>>4));
+  Serial.print(mkistdf_byte2char(lv_byte));
   Serial.print("h ");
 }
 
-void gf_prm_cpu_info() {  // print info about ESP CPU & memory 
-  Serial.println("=====================  Start MCU Info  =====================");
-  esp_chip_info_t chip_info;
-  esp_chip_info(&chip_info);
-  Serial.print("Chip Model      = "); Serial.println( chip_info.model);
-  Serial.print("Cores           = "); Serial.println( chip_info.cores);
-  Serial.print("Revision number = "); Serial.println( chip_info.revision);
-  Serial.print("Full rev.number = "); Serial.println( chip_info.full_revision);
-  Serial.print("Features, BIN   = "); Serial.println( chip_info.features, BIN);
-  Serial.print("CPU Freq, MHz   = ");   Serial.println(getCpuFrequencyMhz());
-  Serial.print("XTAL Freq,  MHz = ");   Serial.println(getXtalFrequencyMhz());
-  Serial.print("APB Freq, Hz    = ");   Serial.println(getApbFrequency());
-  Serial.print("esp_get_idf_version()              = ");  Serial.println(esp_get_idf_version());
-  Serial.print("esp_get_free_heap_size()           = ");  Serial.println(esp_get_free_heap_size());
-  Serial.print("heap_caps_get_free_size()          = ");  Serial.println(heap_caps_get_free_size(MALLOC_CAP_INTERNAL));
-  Serial.print("heap_caps_get_largest_free_block() = ");  Serial.println(heap_caps_get_largest_free_block(MALLOC_CAP_INTERNAL));
-  size_t spiram_size = heap_caps_get_total_size(MALLOC_CAP_SPIRAM);
-  if (spiram_size) {
-    Serial.print("PSRAM Size: "); Serial.println(spiram_size);
-  }
-  else Serial.println("No PSRAM detected.");
-  Serial.println("=====================   End MCU Info   =====================");
-}
-
-float gf_Pa2mmHg(float pressure) {  // convert Pa to mmHg
+float mkistdf_Pa2mmHg(float pressure) {  // convert Pa to mmHg
 	return (float)(pressure * 0.00750061683f);
 }
 
-bool gf_wifi_con() {   // Connecting to wifi with SSID PASS 
+bool mkistdf_wifiCon() {   // Connecting to wifi with SSID PASS 
   if (WiFi.status() == WL_CONNECTED)  {
     Serial.print("WiFi conected => ");
     Serial.println(WiFi.localIP());
@@ -80,7 +70,7 @@ bool gf_wifi_con() {   // Connecting to wifi with SSID PASS
   }
 }
 
-void gf_wifi_scan() {     // Display info of available wifi AP 
+void mkistdf_wifiScan() {     // Display info of available wifi AP 
   Serial.println("==================== Scan WiFi networks ====================");
   u8_t n = WiFi.scanNetworks();
   if (n > 0) {
@@ -100,7 +90,7 @@ void gf_wifi_scan() {     // Display info of available wifi AP
   Serial.println("================== End Scan WiFi networks ==================");
 }
 
-void gf_wifi_status() {   // display info about connection 
+void mkistdf_wifiStatus() {   // display info about connection 
   Serial.print("WiFi Status: ");
   byte tv_wifist = WiFi.status();
   Serial.print(tv_wifist); Serial.print("-");
@@ -146,4 +136,28 @@ void gf_wifi_status() {   // display info about connection
     }
     Serial.println();
   }
+}
+
+void mkistdf_cpuInfo() {  // print info about ESP CPU & memory 
+  Serial.println("=====================  Start MCU Info  =====================");
+  esp_chip_info_t chip_info;
+  esp_chip_info(&chip_info);
+  Serial.print("Chip Model      = "); Serial.println( chip_info.model);
+  Serial.print("Cores           = "); Serial.println( chip_info.cores);
+  Serial.print("Revision number = "); Serial.println( chip_info.revision);
+  Serial.print("Full rev.number = "); Serial.println( chip_info.full_revision);
+  Serial.print("Features, BIN   = "); Serial.println( chip_info.features, BIN);
+  Serial.print("CPU Freq, MHz   = ");   Serial.println(getCpuFrequencyMhz());
+  Serial.print("XTAL Freq,  MHz = ");   Serial.println(getXtalFrequencyMhz());
+  Serial.print("APB Freq, Hz    = ");   Serial.println(getApbFrequency());
+  Serial.print("esp_get_idf_version()              = ");  Serial.println(esp_get_idf_version());
+  Serial.print("esp_get_free_heap_size()           = ");  Serial.println(esp_get_free_heap_size());
+  Serial.print("heap_caps_get_free_size()          = ");  Serial.println(heap_caps_get_free_size(MALLOC_CAP_INTERNAL));
+  Serial.print("heap_caps_get_largest_free_block() = ");  Serial.println(heap_caps_get_largest_free_block(MALLOC_CAP_INTERNAL));
+  size_t spiram_size = heap_caps_get_total_size(MALLOC_CAP_SPIRAM);
+  if (spiram_size) {
+    Serial.print("PSRAM Size: "); Serial.println(spiram_size);
+  }
+  else Serial.println("No PSRAM detected.");
+  Serial.println("=====================   End MCU Info   =====================");
 }
