@@ -1,10 +1,9 @@
 /************************************************************************************
 Mini Std Library
-by Igor Mkprog, mkprogigor@gmail.com
+V1.0 from 30.06.2025 by Igor Mkprog, mkprogigor@gmail.com
 
-V1.0 from 30.08.2025
-
-Glossary, abbreviations used in the module, prefix and suffix:
+Glossary, abbreviations used in the module. Name of metods (functions) dont use symbol '_',
+only small or capital letter. Symbol '_' divide name in: prefix _ name _ suffix:
 gv_*    -   Global Variable;
 lv_*    -   Local Variable (live inside statement);
 cl_*    -   CLass;
@@ -13,11 +12,10 @@ cgv_*   -   Class public (Global) member (Variable);
 clv_*   -   Class private (Local) member (Variable);
 cgf_*   -   Class public (Global) metod (Function), not need, no usefull, becouse we see parenthesis => ();
 clf_*   -   Class private (Local) metod (Function);
-
 *_stru  -   [or *_stru_t] suffix, as usual, point the type.
-
-Metods (functions) dont use symbol '_', only small or capital lett
+lp_		-   in function, local parameter
 ************************************************************************************/
+
 #include "mkigor_std.h"
 
 uint8_t mkistdf_decToBcd(uint8_t val)  {   // Convert normal decimal numbers to binary coded decimal
