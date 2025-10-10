@@ -1,20 +1,22 @@
-/************************************************************************************
-Mini Std Library
-V1.0 from 30.06.2025 by Igor Mkprog, mkprogigor@gmail.com
+/*
+	@brief		Mini Std Library.
+	@author		Igor Mkprog, mkprogigor@gmail.com
+	@version	V1.0	@date	30.06.2025
 
-Glossary, abbreviations used in the module. Name of metods (functions) dont use symbol '_',
-only small or capital letter. Symbol '_' divide name in: prefix _ name _ suffix:
-gv_*    -   Global Variable;
-lv_*    -   Local Variable (live inside statement);
-cl_*    -   CLass;
-cd_*    -   Class Definishion;
-cgv_*   -   Class public (Global) member (Variable);
-clv_*   -   Class private (Local) member (Variable);
-cgf_*   -   Class public (Global) metod (Function), not need, no usefull, becouse we see parenthesis => ();
-clf_*   -   Class private (Local) metod (Function);
-*_stru  -   [or *_stru_t] suffix, as usual, point the type.
-lp_		-   in function, local parameter
-************************************************************************************/
+	@remarks	Glossary, abbreviations used in the module.
+	@details	Name of functions dont use symbol '_', only small or capital letters.
+				Symbol '_' divide name in: prefix _ name _ suffix:
+	@var		gv_*    -   Global Variable;
+				lv_*    -   Local Variable (live inside statement);
+				cl_*    -   CLass;
+				cd_*    -   Class Definishion;
+				cgv_*   -   Class public (Global) member (Variable);
+				clv_*   -   Class private (Local) member (Variable);
+				cgf_*   -   Class public (Global) metod (Function), not need, no usefull, becouse we see parenthesis => ();
+				clf_*   -   Class private (Local) metod (Function);
+				lp_		-	in function, local parameter
+				*_stru  -   [or *_stru_t] suffix, as usual, point the type.
+*/
 
 #include "mkigor_std.h"
 

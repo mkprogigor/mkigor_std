@@ -1,2 +1,2 @@
 # mkigor_std
-A few non interesting function for arduino.
+A few non short functions for Arduino framework.
