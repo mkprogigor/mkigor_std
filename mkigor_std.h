@@ -3,9 +3,9 @@
 *	@author		Igor Mkprog, mkprogigor@gmail.com
 *	@version	V1.0	@date	30.06.2025
 *
-*	@remarks	Glossary, abbreviations used in the module.
-*		Name of functions dont use symbol '_', only small or capital letters.
-*		Symbol '_' divide name in: prefix_nameOfFunction_suffix (it can be only 2 '_' in name):
+*	@remarks	Glossary, abbreviations used in the module. Name has small or capital letters ("camelCase"),
+*	and consist only 2 or 1 symbol '_', that divede it in => prefix + name + suffix.
+*	prefix: 
 *		gv_*	- Global Variable;
 *		lv_*	- Local Variable (live inside statement);
 *		cl_*	- CLass;
@@ -15,8 +15,9 @@
 *		cgf_*	- Class public (Global) metod (Function), not need, no usefull, becouse we see parenthesis => ();
 *		clf_*	- Class private (Local) metod (Function);
 *		lp_		- in function, local parameter
-*		*_stru	- [or *_stru_t] suffix, as usual, point the type.
-*		example: gv_tphg_stru - global var structure.
+*	suffix:
+*		*_stru	- [or *_stru_t] as usual, point the type.
+	example:	- prefix_nameOfFuncOrVar_suffix, gv_tphg_stru => global var (tphg) structure.
 */
 
 #ifndef mkigor_std_h
