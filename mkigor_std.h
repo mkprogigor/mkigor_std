@@ -30,7 +30,7 @@
 /// for WiFi connection, put your SSID and PASS
 static const char ssid[] = WIFI_SSID;
 static const char pass[] = WIFI_PASS;
-/// @brief ThingSpeak channel settings, put your chanel number & API keys
+/// ThingSpeak channel settings, put your chanel number & API keys from https://thingspeak.com
 static const unsigned long my_channel_num = 2994389;
 static const char write_api_key[] = MYTS_WR_APIKEY;
 static const char read_api_key[]  = MYTS_RD_APIKEY;
