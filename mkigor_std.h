@@ -24,21 +24,25 @@
 
 #include <Arduino.h>
 #include <WiFi.h>
+
+/// This is file "mydef.h" with personal defines
 #include "/home/igor/Documents/mydef.h"
+/// for WiFi connection, put your SSID and PASS
 static const char ssid[] = WIFI_SSID;
 static const char pass[] = WIFI_PASS;
+/// @brief ThingSpeak channel settings, put your chanel number & API keys
 static const unsigned long my_channel_num = 2994389;
 static const char write_api_key[] = MYTS_WR_APIKEY;
 static const char read_api_key[]  = MYTS_RD_APIKEY;
 
-uint8_t mkistdf_decToBcd(uint8_t val);       // Convert normal decimal numbers to binary coded decimal
-uint8_t mkistdf_bcdToDec(uint8_t val);       // Convert binary coded decimal to normal decimal numbers
-float   mkistdf_Pa2mmHg(float pressure);     // convert Pa to mmHg
-char    mkistdf_byte2char(uint8_t lv_byte1); // translate right 4 LSB to symbol 0..F  ex. 0xBA => 'A'
-void    mkistdf_prnByte(uint8_t lv_byte);    // print byte like "FCh "
-bool    mkistdf_wifiCon();                   // check or connect to WiFi AP with SSID and PASS from file "mydef.h"
-void    mkistdf_wifiScan();                  // Display info of available wifi AP 
-void    mkistdf_wifiStatus();                // display info about connection 
-void    mkistdf_cpuInfo();                   // print info about ESP CPU & memory 
+uint8_t mkistdf_decToBcd(uint8_t val);		/// Convert normal decimal numbers to binary coded decimal
+uint8_t mkistdf_bcdToDec(uint8_t val);		/// Convert binary coded decimal to normal decimal numbers
+float   mkistdf_Pa2mmHg(float pressure);	/// convert Pa to mmHg
+char    mkistdf_byte2char(uint8_t lv_byte1);	/// translate right 4 LSB to symbol 0..F  ex. 0xBA => 'A'
+void    mkistdf_prnByte(uint8_t lv_byte);	/// print byte like "FCh "
+bool    mkistdf_wifiCon();					/// check or connect to WiFi AP with SSID and PASS from file "mydef.h"
+void    mkistdf_wifiScan();					/// Display info of available wifi AP 
+void    mkistdf_wifiStatus();				/// display info about connection 
+void    mkistdf_cpuInfo();					/// print info about ESP CPU & memory 
 
 #endif
