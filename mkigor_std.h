@@ -1,7 +1,7 @@
 /**
  * @brief		Mini Std Library for Arduino.
  * @author		Igor Mkprog, mkprogigor@gmail.com
- * @version	V1.0	@date	30.06.2025
+ * @version	V1.1	@date	24.10.2025
  *
  * @remarks	Glossary, abbreviations used in the module. Name has small or capital letters ("camelCase"),
  *	and consist only 2 or 1 symbol '_', that divide it in => prefix + name + suffix.
