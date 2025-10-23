@@ -45,5 +45,5 @@ bool    mkistdf_wifiCon();					/// check or connect to WiFi AP with SSID and PAS
 void    mkistdf_wifiScan();					/// Display info of available wifi AP 
 void    mkistdf_wifiStatus();				/// display info about connection 
 void    mkistdf_cpuInfo();					/// print info about ESP CPU & memory 
-
+uint16_t mkistdf_findCharA2inCharA1(char *lp_charArr1, char *lp_charFind);
 #endif

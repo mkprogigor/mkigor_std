@@ -22,6 +22,8 @@
 
 #include "mkigor_std.h"
 
+//===========================================================================================
+
 /**	@brief	Convert normal decimal numbers to binary coded decimal.
 *	@param	val is decimal value to convert
 *	@return	converted value in BCD format	*/
@@ -183,3 +185,43 @@ void mkistdf_cpuInfo() {
 	else Serial.println("No PSRAM detected.");
 	Serial.println("=====================   End MCU Info   =====================");
 }
+
+/**
+ * @brief 
+ * 
+ * @param lp_charArr1 
+ * @param lp_charFind 
+ * @return uint16_t 
+ */
+uint16_t mkistdf_findCharA2inCharA1(char *lp_charArr1, char *lp_charFind) {
+	uint16_t lv_sizeArr1 = 0, lv_sizeFind = 0, lv_findPos = 0xFFFF;
+	for (uint16_t i = 0; i < 2048; i++)
+		if (lp_charArr1[i] == '\0') {
+			lv_sizeArr1 = i;
+			break;
+		}
+	for (uint16_t i = 0; i < 2048; i++)
+		if (lp_charFind[i] == '\0') {
+			lv_sizeFind = i;
+			break;
+		}
+	if (lv_sizeArr1<lv_sizeFind) return lv_findPos;
+	
+	for (uint16_t i = 0; i < lv_sizeArr1; i++) {
+		if (lp_charArr1[i] == lp_charFind[0]) {
+			for (uint16_t j = 1; j < lv_sizeFind; j++) {
+				if (lp_charArr1[i+j] != lp_charFind[j]) {
+					lv_findPos = 0xFFFF;
+					break;
+				}
+				else lv_findPos = i;
+			}
+			if (lv_findPos == i) break;
+		}
+	}
+/*	#ifdef DEBUG_EN
+	printf("Size CharArr1 = %d, size CharFind = %d, Find Pos. = %d\n", lv_sizeArr1, lv_sizeFind, lv_findPos);
+	#endif	*/
+	return lv_findPos;
+}
+//===========================================================================================
