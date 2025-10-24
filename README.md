@@ -1,2 +1,2 @@
 # mkigor_std
-A few short functions for Arduino framework.
+A few my everyday std short functions for Arduino esp32.

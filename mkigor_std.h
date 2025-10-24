@@ -47,15 +47,15 @@ struct DT_stru_t	{
 	uint32_t msDT;
 };
 
-uint8_t mkistdf_decToBcd(uint8_t val);		/// Convert normal decimal numbers to binary coded decimal
-uint8_t mkistdf_bcdToDec(uint8_t val);		/// Convert binary coded decimal to normal decimal numbers
-float   mkistdf_Pa2mmHg(float pressure);	/// convert Pa to mmHg
-char    mkistdf_byte2char(uint8_t lv_byte1);	/// translate right 4 LSB to symbol 0..F  ex. 0xBA => 'A'
-void    mkistdf_prnByte(uint8_t lv_byte);	/// print byte like "FCh "
-bool    mkistdf_wifiCon();					/// check or connect to WiFi AP with SSID and PASS from file "mydef.h"
-void    mkistdf_wifiScan();					/// Display info of available wifi AP 
-void    mkistdf_wifiStatus();				/// display info about connection 
-void    mkistdf_cpuInfo();					/// print info about ESP CPU & memory 
-uint16_t mkistdf_findCharA2inCharA1(char *lp_charArr1, char *lp_charFind);
-uint8_t mkistdf_getDateTime(DT_stru_t &lp_DTout_stru);
+uint8_t	mkistdf_decToBcd(uint8_t val);		/// Convert normal decimal numbers to binary coded decimal
+uint8_t	mkistdf_bcdToDec(uint8_t val);		/// Convert binary coded decimal to normal decimal numbers
+float	mkistdf_Pa2mmHg(float pressure);	/// convert Pa to mmHg
+char	mkistdf_byte2char(uint8_t lv_byte1);	/// translate right 4 LSB to symbol 0..F  ex. 0xBA => 'A'
+void	mkistdf_prnByte(uint8_t lv_byte);	/// print byte like "FCh "
+bool	mkistdf_wifiCon();					/// check or connect to WiFi AP with SSID and PASS from file "mydef.h"
+void	mkistdf_wifiScan();					/// Display info of available wifi AP 
+void	mkistdf_wifiStatus();				/// display info about connection 
+void	mkistdf_cpuInfo();					/// print info about ESP CPU & memory 
+uint16_t	mkistdf_findC2inC1(char *lp_charArr1, char *lp_charArr2);
+uint8_t	mkistdf_getDateTime(DT_stru_t &lp_DTout_stru);
 #endif

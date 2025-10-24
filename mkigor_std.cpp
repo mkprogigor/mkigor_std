@@ -193,7 +193,7 @@ void mkistdf_cpuInfo() {
  * @param lp_charFind 
  * @return uint16_t 
  */
-uint16_t mkistdf_findCharA2inCharA1(char *lp_charArr1, char *lp_charFind) {
+uint16_t mkistdf_findC2inC1(char *lp_charArr1, char *lp_charFind) {
 	uint16_t lv_sizeArr1 = 0, lv_sizeFind = 0, lv_findPos = 0xFFFF;
 	for (uint16_t i = 0; i < 2048; i++)
 		if (lp_charArr1[i] == '\0') {
@@ -226,7 +226,7 @@ uint16_t mkistdf_findCharA2inCharA1(char *lp_charArr1, char *lp_charFind) {
 }
 
 /**
- * @brief Make connection to goodle.com with GET request and save real GMT date & time to struct var
+ * @brief Make GET request to goodle.com find and save GMT date & time to struct var
  * 
  * @param lp_DTout_stru var structure DT_stru_t pass by reference
  * @return uint8_t 0 = error, 1 = Ok.
@@ -269,13 +269,13 @@ uint8_t mkistdf_getDateTime(DT_stru_t &lp_DTout_stru) {
 	lv_buff[511] = 0;
 
 	char lv_fs1[] = "Date: ";
-	uint16_t lv_strPos = mkistdf_findCharA2inCharA1(lv_buff, lv_fs1) + 6;
+	uint16_t lv_strPos = mkistdf_findC2inC1(lv_buff, lv_fs1) + 6;
 	if (lv_strPos == 0xFFFF) {
 		Serial.println("Not found 'Date: ' in http GET request.");
 		return 0;
 	}
 	char lv_fs3[] = "GMT";
-	uint16_t lv_finPos = mkistdf_findCharA2inCharA1(lv_buff, lv_fs3) - 1;
+	uint16_t lv_finPos = mkistdf_findC2inC1(lv_buff, lv_fs3) - 1;
 	uint8_t lv_nDT = lv_finPos - lv_strPos;
 	char lv_charDT[lv_nDT];
 	for (uint8_t i = 0; i < lv_nDT; i++) lv_charDT[i] = lv_buff[lv_strPos + i];
@@ -292,7 +292,7 @@ uint8_t mkistdf_getDateTime(DT_stru_t &lp_DTout_stru) {
 	uint16_t lv_pos1;
 	char lv_tt[4] = { lv_charDT[0], lv_charDT[1], lv_charDT[2], 0 };
 	char lv_fs2[] = "MonTueWedThuFriSatSun";
-	lv_pos1 = mkistdf_findCharA2inCharA1(lv_fs2, lv_tt);
+	lv_pos1 = mkistdf_findC2inC1(lv_fs2, lv_tt);
 	lv_DOW_b = uint8_t(lv_pos1) / 3 + 1;
 	uint8_t lv_stt;
 	if (lv_charDT[6] == ' ') {
@@ -305,7 +305,7 @@ uint8_t mkistdf_getDateTime(DT_stru_t &lp_DTout_stru) {
 	}
 	char lv_ttM[4] = { lv_charDT[lv_stt], lv_charDT[lv_stt + 1], lv_charDT[lv_stt + 2], 0 };
 	char lv_fs4[] = "JanFebMarAprMayJunJulAugSepOctNovDec";
-	lv_pos1 = mkistdf_findCharA2inCharA1(lv_fs4, lv_ttM);
+	lv_pos1 = mkistdf_findC2inC1(lv_fs4, lv_ttM);
 	lv_Month_b = uint8_t(lv_pos1) / 3 + 1;
 	lv_Year_b = (uint8_t(lv_charDT[lv_stt + 6]) - 48) * 10 + uint8_t(lv_charDT[lv_stt + 7]) - 48;
 	lv_Hour_b = (uint8_t(lv_charDT[lv_stt + 9]) - 48) * 10 + uint8_t(lv_charDT[lv_stt + 10]) - 48;
