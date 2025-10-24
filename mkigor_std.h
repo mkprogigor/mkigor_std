@@ -1,8 +1,8 @@
 /**
- * @brief		Mini Std Library for Arduino.
- * @author		Igor Mkprog, mkprogigor@gmail.com
+ * @brief	Mini Std Library for Arduino.
+ * @author	Igor Mkprog, mkprogigor@gmail.com
  * @version	V1.1	@date	24.10.2025
- *
+ * 
  * @remarks	Glossary, abbreviations used in the module. Name has small or capital letters ("camelCase"),
  *	and consist only 2 or 1 symbol '_', that divide it in => prefix + name + suffix.
  * 	prefix: 
@@ -36,7 +36,7 @@ static const unsigned long my_channel_num = 2994389;
 static const char write_api_key[] = MYTS_WR_APIKEY;
 static const char read_api_key[]  = MYTS_RD_APIKEY;
 
-struct DT_stru_t	{
+struct DT_stru_t	{	/// date & time structure for mkistdf_getDateTime()
 	uint8_t year;
 	uint8_t month;
 	uint8_t day;

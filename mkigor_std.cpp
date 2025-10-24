@@ -24,23 +24,32 @@
 
 //===========================================================================================
 
-/**	@brief	Convert normal decimal numbers to binary coded decimal.
-*	@param	val is decimal value to convert
-*	@return	converted value in BCD format	*/
+/**
+ * @brief	Convert normal decimal numbers to binary coded decimal.
+ * 
+ * @param	val is decimal value to convert
+ * @return	converted value in BCD format	
+ */
 uint8_t mkistdf_decToBcd(uint8_t val) {
 	return(((val / 10) << 4) | (val % 10));
 }
 
-/**	@brief	Convert binary coded decimal to normal decimal numbers
-*	@param	val is BCD value to convert
-*	@return	converted value in decimal format	*/
+/**
+ * @brief	Convert binary coded decimal to normal decimal numbers
+ * 
+ * @param	val is BCD value to convert
+ * @return	converted value in decimal format
+ */
 uint8_t mkistdf_bcdToDec(uint8_t val) {
 	return((val / 16 * 10) + (val % 16));
 }
 
-/**	@brief	Translate right 4 LSB to symbol 0..F  ex. 0xBA => 'A'
-*	@param	lv_byte1 is byte to convert
-*	@return	code ASCII char symbol	*/
+/**	
+ * @brief	Translate right 4 LSB to symbol 0..F  ex. 0xBA => 'A'
+ * 
+ * @param	lv_byte1 is byte to convert
+ * @return	code ASCII char symbol
+ */
 char mkistdf_byte2char(uint8_t lv_byte1) {
 	lv_byte1 = lv_byte1 & 0x0F;
 	if (lv_byte1 > 9)	lv_byte1 = lv_byte1 + 55;
@@ -48,24 +57,33 @@ char mkistdf_byte2char(uint8_t lv_byte1) {
 	return lv_byte1;
 }
 
-/**	@brief	Print byte like "FCh " by Fn Serial.print()
-*	@param	lv_byte is byte to print
-*	@return	void	*/
+/**	
+ * @brief	Print byte like "FCh " by Fn Serial.print()
+ * 
+ * @param	lv_byte is byte to print
+ * @return	void
+ */
 void mkistdf_prnByte(uint8_t lv_byte) {
 	Serial.print(mkistdf_byte2char(lv_byte >> 4));
 	Serial.print(mkistdf_byte2char(lv_byte));
 	Serial.print("h ");
 }
 
-/**	@brief	convert pressure Pa to mmHg
-*	@param	(float) pressure in Pa
-*	@return	(float) pressure in mmHg	*/
+/**
+ * @brief	convert pressure Pa to mmHg
+ * 
+ * @param	(float) pressure in Pa
+ * @return	(float) pressure in mmHg
+ */
 float mkistdf_Pa2mmHg(float pressure) {
 	return (float)(pressure * 0.00750061683f);
 }
 
-/**	@brief	Check connection WiFi, If not - Connect to WiFi with SSID, PASS
-*	@return	true if connected, otherwise false	*/
+/**
+ * @brief	Check connection WiFi, If not - Connect to WiFi with SSID, PASS
+ * 
+ * @return	true if connected, otherwise false	
+ */
 bool mkistdf_wifiCon() {
 	if (WiFi.status() == WL_CONNECTED) {
 		Serial.print("WiFi conected => ");
@@ -91,7 +109,9 @@ bool mkistdf_wifiCon() {
 	}
 }
 
-/**	@brief	Scan available WiFi AP and print info to Serial Monitor	*/
+/**
+ * @brief Scan available WiFi AP and print info to Serial Monitor
+ */
 void mkistdf_wifiScan() {
 	Serial.println("==================== Scan WiFi networks ====================");
 	u8_t n = WiFi.scanNetworks();
@@ -112,7 +132,9 @@ void mkistdf_wifiScan() {
 	Serial.println("================== End Scan WiFi networks ==================");
 }
 
-/**	@brief	Print info about WiFi connection status	*/
+/**
+ * @brief Print info about WiFi connection status
+ */
 void mkistdf_wifiStatus() {
 	Serial.print("WiFi Status: ");
 	byte tv_wifist = WiFi.status();
@@ -161,7 +183,9 @@ void mkistdf_wifiStatus() {
 	}
 }
 
-/**	@brief	Print some status and config info about ESP CPU & memory	*/
+/**
+ * @brief Print some status and config info about ESP CPU & memory
+ */
 void mkistdf_cpuInfo() {
 	Serial.println("=====================  Start MCU Info  =====================");
 	esp_chip_info_t chip_info;
@@ -187,11 +211,17 @@ void mkistdf_cpuInfo() {
 }
 
 /**
- * @brief 
- * 
- * @param lp_charArr1 
- * @param lp_charFind 
- * @return uint16_t 
+ * @brief Find the first occurrence of a null-terminated substring (Char2)
+ * inside a null-terminated string (Char1).
+ * Searches in `lp_charArr1` for the first occurrence of the pattern `lp_charFind`.
+ * The function returns the zero-based index of the first matching position in
+ * `lp_charArr1`. If the pattern is not found the function returns 0xFFFF.
+ *
+ * @param lp_charArr1 Pointer to the null-terminated target string to search in.
+ * @param lp_charFind Pointer to the null-terminated pattern string to search for.
+ * @return uint16_t Zero-based index of the first match, or 0xFFFF when not found.
+ * @remark Both arguments must be classic C strings terminated with '\0'. The
+ * function scans at max 2048 bytes or less if find end symbol '\0' early.
  */
 uint16_t mkistdf_findC2inC1(char *lp_charArr1, char *lp_charFind) {
 	uint16_t lv_sizeArr1 = 0, lv_sizeFind = 0, lv_findPos = 0xFFFF;
