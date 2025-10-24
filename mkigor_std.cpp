@@ -224,4 +224,99 @@ uint16_t mkistdf_findCharA2inCharA1(char *lp_charArr1, char *lp_charFind) {
 	#endif	*/
 	return lv_findPos;
 }
+
+/**
+ * @brief Make connection to goodle.com with GET request and save real GMT date & time to struct var
+ * 
+ * @param lp_DTout_stru var structure DT_stru_t pass by reference
+ * @return uint8_t 0 = error, 1 = Ok.
+ */
+uint8_t mkistdf_getDateTime(DT_stru_t &lp_DTout_stru) {
+	lp_DTout_stru = {0,0,0,0,0,0,0,0};
+	mkistdf_wifiCon();
+	if (WiFi.status() != WL_CONNECTED) {
+		Serial.println("No WiFi conection.");
+		return 0;
+	}
+
+	WiFiClient	wifi_client;
+	if (!wifi_client.connect("google.com", 80)) {
+		Serial.println("http client NOT connected.");
+		return 0;
+	}
+
+	unsigned long lv_msDT_u32;
+	wifi_client.println("GET /search?q=mkprogigor HTTP/1.0\r\n\r\n");	/// Make a HTTP request:
+	lv_msDT_u32 = millis();
+	for (uint16_t i = 0; i < 3000; i++) {
+		if (wifi_client.available()) {
+			lv_msDT_u32 = lv_msDT_u32 + (millis() - lv_msDT_u32) / 2;
+#ifdef DEBUG_EN
+			printf("\nTime of delay request = %d\n", i);
+#endif
+			break;
+		}
+		delay(1);
+	}
+
+	uint16_t lv_nBuf = 512;
+	char lv_buff[lv_nBuf];
+	for (uint16_t i = 0; i < lv_nBuf; i++) {
+		if (wifi_client.available()) lv_buff[i] = wifi_client.read();
+		else break;
+	}
+	wifi_client.stop();
+	lv_buff[511] = 0;
+
+	char lv_fs1[] = "Date: ";
+	uint16_t lv_strPos = mkistdf_findCharA2inCharA1(lv_buff, lv_fs1) + 6;
+	if (lv_strPos == 0xFFFF) {
+		Serial.println("Not found 'Date: ' in http GET request.");
+		return 0;
+	}
+	char lv_fs3[] = "GMT";
+	uint16_t lv_finPos = mkistdf_findCharA2inCharA1(lv_buff, lv_fs3) - 1;
+	uint8_t lv_nDT = lv_finPos - lv_strPos;
+	char lv_charDT[lv_nDT];
+	for (uint8_t i = 0; i < lv_nDT; i++) lv_charDT[i] = lv_buff[lv_strPos + i];
+
+#ifdef DEBUG_EN
+	Serial.print("\n=> Buffer array:\n");
+	for (uint16_t j = 0; j < lv_nBuf; j++) Serial.print(lv_buff[j]);
+	Serial.print("\n=> end array.\n\n");
+	for (uint16_t i = 0; i < lv_nDT; i++) Serial.print(lv_charDT[i]);
+	Serial.println();
+#endif
+
+	uint8_t lv_Year_b, lv_Month_b, lv_Day_b, lv_DOW_b, lv_Hour_b, lv_Min_b, lv_Sec_b;
+	uint16_t lv_pos1;
+	char lv_tt[4] = { lv_charDT[0], lv_charDT[1], lv_charDT[2], 0 };
+	char lv_fs2[] = "MonTueWedThuFriSatSun";
+	lv_pos1 = mkistdf_findCharA2inCharA1(lv_fs2, lv_tt);
+	lv_DOW_b = uint8_t(lv_pos1) / 3 + 1;
+	uint8_t lv_stt;
+	if (lv_charDT[6] == ' ') {
+		lv_stt = 7;
+		lv_Day_b = uint8_t(lv_charDT[5]) - 48;
+	}
+	else {
+		lv_stt = 8;
+		lv_Day_b = (uint8_t(lv_charDT[5]) - 48) * 10 + (uint8_t(lv_charDT[6]) - 48);
+	}
+	char lv_ttM[4] = { lv_charDT[lv_stt], lv_charDT[lv_stt + 1], lv_charDT[lv_stt + 2], 0 };
+	char lv_fs4[] = "JanFebMarAprMayJunJulAugSepOctNovDec";
+	lv_pos1 = mkistdf_findCharA2inCharA1(lv_fs4, lv_ttM);
+	lv_Month_b = uint8_t(lv_pos1) / 3 + 1;
+	lv_Year_b = (uint8_t(lv_charDT[lv_stt + 6]) - 48) * 10 + uint8_t(lv_charDT[lv_stt + 7]) - 48;
+	lv_Hour_b = (uint8_t(lv_charDT[lv_stt + 9]) - 48) * 10 + uint8_t(lv_charDT[lv_stt + 10]) - 48;
+	lv_Min_b = (uint8_t(lv_charDT[lv_stt + 12]) - 48) * 10 + uint8_t(lv_charDT[lv_stt + 13]) - 48;
+	lv_Sec_b = (uint8_t(lv_charDT[lv_stt + 15]) - 48) * 10 + uint8_t(lv_charDT[lv_stt + 16]) - 48;
+#ifdef DEBUG_EN
+	printf("\nDate & Time: %d-%d-%d, dow %d, %d:%d:%d, msecTime = %d\n",
+		lv_Year_b, lv_Month_b + 1, lv_Day_b, lv_DOW_b + 1, lv_Hour_b, lv_Min_b, lv_Sec_b, lv_msDT_u32);
+#endif
+	lp_DTout_stru = {lv_Year_b, lv_Month_b, lv_Day_b, lv_DOW_b, lv_Hour_b, lv_Min_b, lv_Sec_b, lv_msDT_u32};
+	return 1;
+}
+
 //===========================================================================================

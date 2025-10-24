@@ -36,6 +36,17 @@ static const unsigned long my_channel_num = 2994389;
 static const char write_api_key[] = MYTS_WR_APIKEY;
 static const char read_api_key[]  = MYTS_RD_APIKEY;
 
+struct DT_stru_t	{
+	uint8_t year;
+	uint8_t month;
+	uint8_t day;
+	uint8_t dow;
+	uint8_t hour;
+	uint8_t min;
+	uint8_t sec;
+	uint32_t msDT;
+};
+
 uint8_t mkistdf_decToBcd(uint8_t val);		/// Convert normal decimal numbers to binary coded decimal
 uint8_t mkistdf_bcdToDec(uint8_t val);		/// Convert binary coded decimal to normal decimal numbers
 float   mkistdf_Pa2mmHg(float pressure);	/// convert Pa to mmHg
@@ -46,4 +57,5 @@ void    mkistdf_wifiScan();					/// Display info of available wifi AP
 void    mkistdf_wifiStatus();				/// display info about connection 
 void    mkistdf_cpuInfo();					/// print info about ESP CPU & memory 
 uint16_t mkistdf_findCharA2inCharA1(char *lp_charArr1, char *lp_charFind);
+uint8_t mkistdf_getDateTime(DT_stru_t &lp_DTout_stru);
 #endif
