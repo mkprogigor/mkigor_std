@@ -25,6 +25,7 @@
 
 #include <Arduino.h>
 #include <WiFi.h>
+#include <Wire.h>
 
 /// This is file "mydef.h" with personal defines
 #include "/home/igor/Documents/mydef.h"
@@ -58,4 +59,6 @@ void	mkistdf_wifiStatus();				/// display info about connection
 void	mkistdf_cpuInfo();					/// print info about ESP CPU & memory 
 uint16_t	mkistdf_findC2inC1(char *lp_charArr1, char *lp_charArr2);
 uint8_t	mkistdf_getDateTime(DT_stru_t &lp_DTout_stru);
+void	mkistdf_scanI2C();					/// scan I2C bus and print found devices to Serial Monitor
+
 #endif

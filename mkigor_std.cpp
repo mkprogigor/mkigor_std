@@ -349,4 +349,29 @@ uint8_t mkistdf_getDateTime(DT_stru_t &lp_DTout_stru) {
 	return 1;
 }
 
+void mkistdf_scanI2C() {
+	uint8_t lv_error;
+	Serial.println("Scanning I2C address =>");
+	for (uint8_t i = 1; i < 127; i++) {
+		Wire.beginTransmission(i);
+		lv_error = Wire.endTransmission(true);
+		switch (lv_error) {
+		case 0:
+			printf("0 = I2C device found at address 0x%X\n", i);	break;
+		case 1:
+			printf("1 = data too long to fit in transmit buffer, at address 0x%X\n", i);	break;
+		case 2:
+			printf("2 = received NACK on transmit of address, at address 0x%X\n", i);	break;
+		case 3:
+			printf("3 = received NACK on transmit of data, at address 0x%X\n", i);	break;
+		case 4:
+			printf("4 = other error, at address 0x%X\n", i);	break;
+		case 5:
+			printf("5 = timeout error at address 0x%X\n", i);	break;
+		default:
+			printf("Unknow error %d at address 0x%X\n", lv_error, i);	break;
+		}
+		delay(10);
+	}
+}
 //===========================================================================================
