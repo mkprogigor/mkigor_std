@@ -20,6 +20,7 @@
  * 		example:	- prefix_nameOfFuncOrVar_suffix, gv_tphg_stru => global var (tphg) structure.
  */
 
+
 #include "mkigor_std.h"
 
 //===========================================================================================
@@ -349,6 +350,10 @@ uint8_t mkistdf_getDateTime(DT_stru_t &lp_DTout_stru) {
 	return 1;
 }
 
+/**
+ * @brief scan I2C devices from 0-127 address
+ * 
+ */
 void mkistdf_scanI2C() {
 	uint8_t lv_error;
 	Serial.println("Scanning I2C address =>");
@@ -372,6 +377,27 @@ void mkistdf_scanI2C() {
 			printf("Unknow error %d at address 0x%X\n", lv_error, i);	break;
 		}
 		delay(10);
+	}
+}
+
+/**
+ * @brief print to terminal array lp_buf by lenth lp_len
+ * 
+ * @param lp_buf array to print by reference
+ * @param lp_len lenth of array lp_buf
+ */
+void	mkistdf_prnBuf(uint8_t *lp_buf, uint8_t lp_len) {
+	Serial.print("------ 0 - 1 - 2 - 3 - 4 - 5 - 6 - 7 - 8 - 9 - A - B - C - D - E - F\n");
+	for (uint8_t i = 0; i < lp_len; i++) {
+		char c[] = "0x_0: ";
+		c[2] = mkistdf_byte2char(i >> 4);
+		Serial.print(c);
+		for (uint8_t j = 0; j < 16; j++) {
+			if (i + j >= lp_len) break;
+			mkistdf_prnByte(lp_buf[i + j]);
+		}
+		i = i + 15;
+		Serial.println();
 	}
 }
 //===========================================================================================

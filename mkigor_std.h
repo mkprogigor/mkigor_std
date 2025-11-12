@@ -58,7 +58,8 @@ void	mkistdf_wifiScan();					/// Display info of available wifi AP
 void	mkistdf_wifiStatus();				/// display info about connection 
 void	mkistdf_cpuInfo();					/// print info about ESP CPU & memory 
 uint16_t	mkistdf_findC2inC1(char *lp_charArr1, char *lp_charArr2);
-uint8_t	mkistdf_getDateTime(DT_stru_t &lp_DTout_stru);
+uint8_t	mkistdf_getDateTime(DT_stru_t &lp_DTout_stru);	/// get GMT date & time from google.com
 void	mkistdf_scanI2C();					/// scan I2C bus and print found devices to Serial Monitor
+void	mkistdf_prnBuf(uint8_t *lp_buf, uint8_t lp_len);	/// print to terminal array lp_buf by lenth lp_len
 
 #endif
