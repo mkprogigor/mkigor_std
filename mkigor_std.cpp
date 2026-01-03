@@ -81,7 +81,9 @@ float mkistdf_Pa2mmHg(float pressure) {
 }
 
 /**
- * @brief	Check connection WiFi, If not - Connect to WiFi with SSID, PASS
+ * @brief	Check connection WiFi,
+ * 		if YES -> print IP address and return;
+ * 		if NOT -> try ONE time duaring 16 sec to connect to WiFi with SSID, PASS 
  * 
  * @return	true if connected, otherwise false	
  */
@@ -92,15 +94,17 @@ bool mkistdf_wifiCon() {
 		return true;
 	}
 	else {
+		Serial.print("Connect to WiFi SSID: ");
+		Serial.print(ssid);
+		Serial.print(" => ");
 		WiFi.begin(ssid, pass);
-		Serial.print("Connect to WiFi => ");
 		for (u8_t i = 0; i < 16; ++i) {
 			if (WiFi.status() != WL_CONNECTED) {
 				Serial.print("? ");
 				delay(1000);
 			}
 			else {
-				Serial.print(", it has done, IP:");
+				Serial.print(", it has done, IP: ");
 				Serial.println(WiFi.localIP());
 				return true;
 			}
@@ -137,10 +141,10 @@ void mkistdf_wifiScan() {
  * @brief Print info about WiFi connection status
  */
 void mkistdf_wifiStatus() {
-	Serial.print("WiFi Status: ");
-	byte tv_wifist = WiFi.status();
-	Serial.print(tv_wifist); Serial.print("-");
-	switch (tv_wifist) {
+	Serial.print("\nWiFi Status: ");
+	uint8_t lv_wifist = WiFi.status();
+	Serial.print(lv_wifist); Serial.print(" = ");
+	switch (lv_wifist) {
 	case WL_CONNECTED:
 		Serial.println("WL_CONNECTED");
 		break;
@@ -169,18 +173,19 @@ void mkistdf_wifiStatus() {
 		Serial.println("undefine.");
 		break;
 	}
-	if (tv_wifist == 3) {
-		Serial.print("IP "); Serial.print(WiFi.localIP());
-		Serial.print(", MASK "); Serial.print(WiFi.subnetMask());
-		Serial.print(", GATE "); Serial.print(WiFi.gatewayIP());
-		Serial.print(", DNS "); Serial.print(WiFi.dnsIP());
-		Serial.print(", MAC ");
+	if (lv_wifist == 3) {
+		Serial.print("SSID: ");	Serial.println(WiFi.SSID());
+		Serial.print("IP:   ");	Serial.println(WiFi.localIP());
+		Serial.print("GATE: ");	Serial.println(WiFi.gatewayIP());
+		Serial.print("DNS:  ");	Serial.println(WiFi.dnsIP());
+		Serial.print("MASK: ");	Serial.println(WiFi.subnetMask());
+		Serial.print("MAC ");
 		uint8_t _lv_mac[6];
 		WiFi.macAddress(_lv_mac);
 		for (uint8_t i = 6; i > 0; i--) {
 			Serial.print(_lv_mac[i - 1], HEX); Serial.print(":");
 		}
-		Serial.println();
+		Serial.println("\n");
 	}
 }
 
@@ -264,7 +269,8 @@ uint16_t mkistdf_findC2inC1(char *lp_charArr1, char *lp_charFind) {
  */
 uint8_t mkistdf_getDateTime(DT_stru_t &lp_DTout_stru) {
 	lp_DTout_stru = {0,0,0,0,0,0,0,0};
-	mkistdf_wifiCon();
+
+	if (WiFi.status() != WL_CONNECTED) mkistdf_wifiCon();
 	if (WiFi.status() != WL_CONNECTED) {
 		Serial.println("No WiFi conection.");
 		return 0;
